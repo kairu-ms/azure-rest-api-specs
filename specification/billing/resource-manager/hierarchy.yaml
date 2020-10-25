@@ -1,0 +1,118 @@
+cli:
+  cli-hierarchy:
+    groups:
+      - name: billing
+        # change: update | add | delete  (default is update)
+        params:
+          - name: profile_name
+            id: billingProfileName
+            # change: update | add | delete  (default is update)
+          - name: account_name
+            id: billingAccountName
+        groups:
+          - name: account
+            id: BillingAccounts
+            extensionMode: preview
+            params:
+              - name: account_name
+                id: billingAccountName
+                alias:
+                  - name
+                  - n
+            cmds:
+              - id: ListInvoiceSectionsByCreateSubscriptionPermission
+                change: delete
+          - name: address
+            id: Address.*$
+            change: delete
+          - name: aggrements
+            id: Aggrements
+            change: delete
+          - name: balance
+            id: availableBalances
+            extensionMode: preview
+          - name: customer
+            id: Customers
+            extensionMode: preview
+          - name: enrollment-account
+            id: EnrollmentAccounts
+            change: delete
+          - name: instructions
+            id: Instructions
+            change: delete
+          - name: invoice
+            id: Invoices
+            params:
+              - name: name
+                id: invoiceName
+                alias:
+                  - n
+            cmd:
+              - id: DownloadInvoice
+                change: remove
+              - id: DownloadMultipleBillingProfileInvoices
+                change: remove
+              - id: DownloadBillingSubscriptionInvoice
+                change: remove
+              - id: DownloadMultipleBillingSubscriptionInvoices
+                change: remove
+              - id: Invoices
+                change: remove
+              - id: GetBySubscriptionAndInvoiceId
+                change: remove
+            groups:
+              - name: section
+          - name: period
+            id: BillingPeriods
+            change: delete
+          - name: permissions
+            id: BillingPermissions
+            change: delete
+          - name: policy
+            id: Policies
+            extensionMode: preview
+            cmd:
+              - id: GetByBillingProfile
+                change: delete
+              - id: GetByCustomer
+                change: delete
+              - id: UpdateCustomer
+                change: delete
+          - name: product
+            id: Products
+            extensionMode: preview
+          - name: profile
+            id: BillingProfiles
+            extensionMode: preview
+            params:
+              - name: profile_name
+                id: billingProfileName
+                alias:
+                  - name
+                  - n
+            cmds:
+              - name: create
+                id: BillingProfilesCreate
+                params:
+                  - name: purchase_order_number
+                    id: poNumber
+          - name: property
+            id: BillingProperty
+            extensionMode: preview
+            params:
+              - name: purchase_order_number
+                id: poNumber
+          - name: role
+            groups:
+              - name: assignments
+                id: BillingRoleAssignments
+                change: delete
+              - name: definitions
+                id: BillingRoleDefinitions
+                change: delete
+          - name: subscription
+            id: BillingSubscriptions
+            extensionMode: preview
+          - name: transaction
+            id: Transactions
+            extensionMode: preview
