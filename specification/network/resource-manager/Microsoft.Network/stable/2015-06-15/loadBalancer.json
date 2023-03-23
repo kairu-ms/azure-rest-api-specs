@@ -244,6 +244,7 @@
     "FrontendIPConfigurationPropertiesFormat": {
       "properties": {
         "inboundNatRules": {
+          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "./network.json#/definitions/SubResource"
@@ -251,6 +252,7 @@
           "description": "Read only. Inbound rules URIs that use this frontend IP."
         },
         "inboundNatPools": {
+          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "./network.json#/definitions/SubResource"
@@ -258,6 +260,7 @@
           "description": "Read only. Inbound pools URIs that use this frontend IP."
         },
         "outboundNatRules": {
+          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "./network.json#/definitions/SubResource"
@@ -265,6 +268,7 @@
           "description": "Read only. Outbound rules URIs that use this frontend IP."
         },
         "loadBalancingRules": {
+          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "./network.json#/definitions/SubResource"
@@ -327,6 +331,7 @@
     "BackendAddressPoolPropertiesFormat": {
       "properties": {
         "backendIPConfigurations": {
+          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "./networkInterface.json#/definitions/NetworkInterfaceIPConfiguration"
@@ -342,6 +347,7 @@
           "description": "Gets load balancing rules that use this backend address pool."
         },
         "outboundNatRule": {
+          "readOnly": true,
           "$ref": "./network.json#/definitions/SubResource",
           "description": "Gets outbound rules that use this backend address pool."
         },
@@ -468,6 +474,7 @@
     "ProbePropertiesFormat": {
       "properties": {
         "loadBalancingRules": {
+          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "./network.json#/definitions/SubResource"
@@ -544,6 +551,7 @@
           "description": "A reference to frontend IP addresses."
         },
         "backendIPConfiguration": {
+          "readOnly": true,
           "$ref": "./networkInterface.json#/definitions/NetworkInterfaceIPConfiguration",
           "description": "A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backed IP."
         },

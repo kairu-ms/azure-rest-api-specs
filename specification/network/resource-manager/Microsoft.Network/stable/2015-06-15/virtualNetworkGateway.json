@@ -301,11 +301,14 @@
           }
         ],
         "responses": {
-          "202": {
+          "200": {
             "description": "VPN client package URL.",
             "schema": {
               "type": "string"
             }
+          },
+          "202": {
+            "description": "Accepted and the operation will complete asynchronously."
           }
         },
         "x-ms-long-running-operation": true,

@@ -534,6 +534,7 @@
       "properties": {
         "backendIPConfigurations": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "./networkInterface.json#/definitions/NetworkInterfaceIPConfiguration"
           },

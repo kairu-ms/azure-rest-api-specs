@@ -1776,6 +1776,7 @@
           "items": {
             "$ref": "#/definitions/LoadBalancerBackendAddress"
           },
+          "x-ms-identifiers": ["name"],
           "description": "An array of backend addresses."
         },
         "backendIPConfigurations": {

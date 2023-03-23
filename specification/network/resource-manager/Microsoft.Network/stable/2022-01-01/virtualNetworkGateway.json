@@ -1115,7 +1115,7 @@
           {
             "name": "parameters",
             "in": "body",
-            "required": false,
+            "required": true,
             "schema": {
               "$ref": "#/definitions/VpnPacketCaptureStartParameters"
             },
@@ -1715,7 +1715,7 @@
           {
             "name": "parameters",
             "in": "body",
-            "required": false,
+            "required": true,
             "schema": {
               "$ref": "#/definitions/VpnPacketCaptureStartParameters"
             },

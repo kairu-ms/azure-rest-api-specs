@@ -566,6 +566,7 @@
           "items": {
             "$ref": "./applicationGateway.json#/definitions/ApplicationGatewayBackendAddressPool"
           },
+          "x-ms-identifiers": ["id"],
           "description": "The reference of ApplicationGatewayBackendAddressPool resource."
         },
         "loadBalancerBackendAddressPools": {
@@ -573,6 +574,7 @@
           "items": {
             "$ref": "./loadBalancer.json#/definitions/BackendAddressPool"
           },
+          "x-ms-identifiers": ["id"],
           "description": "The reference of LoadBalancerBackendAddressPool resource."
         },
         "loadBalancerInboundNatRules": {
@@ -580,6 +582,7 @@
           "items": {
             "$ref": "./loadBalancer.json#/definitions/InboundNatRule"
           },
+          "x-ms-identifiers": ["id"],
           "description": "A list of references of LoadBalancerInboundNatRules."
         },
         "privateIPAddress": {
@@ -826,7 +829,7 @@
           "description": "A collection of effective security rules."
         },
         "tagMap": {
-          "type": "string",
+          "type": "object",
           "additionalProperties": {
             "type": "array",
             "items": {

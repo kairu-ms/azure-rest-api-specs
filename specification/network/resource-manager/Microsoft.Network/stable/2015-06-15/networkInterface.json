@@ -248,6 +248,7 @@
           "items": {
             "$ref": "./loadBalancer.json#/definitions/BackendAddressPool"
           },
+          "x-ms-identifiers": ["id"],
           "description": "The reference of LoadBalancerBackendAddressPool resource."
         },
         "loadBalancerInboundNatRules": {
@@ -255,6 +256,7 @@
           "items": {
             "$ref": "./loadBalancer.json#/definitions/InboundNatRule"
           },
+          "x-ms-identifiers": ["id"],
           "description": "A list of references of LoadBalancerInboundNatRules."
         },
         "privateIPAddress": {

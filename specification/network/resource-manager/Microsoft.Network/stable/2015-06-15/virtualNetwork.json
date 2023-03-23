@@ -459,6 +459,7 @@
           "description": "The reference of the RouteTable resource."
         },
         "ipConfigurations": {
+          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "./networkInterface.json#/definitions/IPConfiguration"
