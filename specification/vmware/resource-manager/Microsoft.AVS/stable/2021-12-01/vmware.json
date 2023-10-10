@@ -5664,7 +5664,8 @@
       "description": "A private cloud resource",
       "required": [
         "location",
-        "sku"
+        "sku",
+        "properties"
       ],
       "allOf": [
         {

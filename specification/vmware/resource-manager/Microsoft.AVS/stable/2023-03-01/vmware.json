@@ -5536,8 +5536,7 @@
         "properties": {
           "description": "The properties of an ExpressRoute Circuit Authorization resource",
           "$ref": "#/definitions/ExpressRouteAuthorizationProperties",
-          "x-ms-client-flatten": true,
-          "readOnly": true
+          "x-ms-client-flatten": true
         }
       }
     },
@@ -5759,14 +5758,25 @@
         },
         "username": {
           "description": "The ID of an Active Directory user with a minimum of read-only access to Base DN for users and group",
-          "type": "string"
+          "type": "string",
+          "x-ms-secret": true
         },
         "password": {
           "description": "The password of the Active Directory user with a minimum of read-only access to Base DN for users and groups.",
           "type": "string",
           "x-ms-secret": true
         }
-      }
+      },
+      "required":[
+        "name",
+        "alias",
+        "domain",
+        "baseUserDN",
+        "baseGroupDN",
+        "primaryServer",
+        "username",
+        "password"
+      ]
     },
     "AvailabilityProperties": {
       "type": "object",
@@ -5801,7 +5811,8 @@
       "description": "A private cloud resource",
       "required": [
         "location",
-        "sku"
+        "sku",
+        "properties"
       ],
       "allOf": [
         {
@@ -5962,11 +5973,13 @@
         "vcenterPassword": {
           "description": "Optionally, set the vCenter admin password when the private cloud is created",
           "type": "string",
+          "format": "password",
           "x-ms-secret": true
         },
         "nsxtPassword": {
           "description": "Optionally, set the NSX-T Manager password when the private cloud is created",
           "type": "string",
+          "format": "password",
           "x-ms-secret": true
         },
         "vcenterCertificateThumbprint": {
@@ -6234,7 +6247,10 @@
           "description": "The Site Recovery Manager (SRM) license",
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "licenseKey"
+      ]
     },
     "AddonVrProperties": {
       "type": "object",
@@ -6289,7 +6305,10 @@
           "description": "The VMware vCenter resource ID",
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "vCenter"
+      ]
     },
     "AddonList": {
       "type": "object",
@@ -6668,7 +6687,10 @@
           "$ref": "#/definitions/CloudLinkProperties",
           "x-ms-client-flatten": true
         }
-      }
+      },
+      "required": [
+        "properties"
+      ]
     },
     "CloudLinkProperties": {
       "type": "object",
@@ -6694,7 +6716,10 @@
           "type": "string",
           "description": "Identifier of the other private cloud participating in the link."
         }
-      }
+      },
+      "required": [
+        "linkedCloud"
+      ]
     },
     "WorkloadNetworkSegmentSubnet": {
       "type": "object",
@@ -8103,7 +8128,10 @@
           "$ref": "#/definitions/ScriptExecutionProperties",
           "x-ms-client-flatten": true
         }
-      }
+      },
+      "required": [
+        "properties"
+      ]
     },
     "ScriptExecutionProperties": {
       "type": "object",
@@ -8192,10 +8220,7 @@
         "namedOutputs": {
           "description": "User-defined dictionary.",
           "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "description": "Dictionary in <name, value> pair."
-          }
+          "additionalProperties": true
         },
         "information": {
           "description": "Standard information out stream from the powershell execution",
