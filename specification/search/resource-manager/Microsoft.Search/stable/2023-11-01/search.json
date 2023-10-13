@@ -346,7 +346,10 @@
             "description": "The query key was successfully deleted."
           },
           "404": {
-            "description": "The subscription, resource group, search service, or query key could not be found."
+            "description": "The subscription, resource group, search service, or query key could not be found.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
           },
           "default": {
             "description": "HTTP 409 (Conflict): The specified subscription is disabled.",
@@ -610,7 +613,10 @@
             "description": "The search service was successfully deleted."
           },
           "404": {
-            "description": "The subscription, resource group, or search service could not be found."
+            "description": "The subscription, resource group, or search service could not be found.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
           },
           "default": {
             "description": "An unexpected error occurred during the operation.",
@@ -870,7 +876,10 @@
             }
           },
           "404": {
-            "description": "The subscription, resource group, search service or private endpoint connection could not be found."
+            "description": "The subscription, resource group, search service or private endpoint connection could not be found.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
           },
           "default": {
             "description": "An unexpected error occurred during the operation.",
@@ -1093,7 +1102,10 @@
             "description": "The backing private endpoint for the shared private link resource could not be found."
           },
           "404": {
-            "description": "The subscription, resource group, search service or shared private link resource could not be found."
+            "description": "The subscription, resource group, search service or shared private link resource could not be found.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
           },
           "default": {
             "description": "An unexpected error occurred during the operation.",
@@ -1533,7 +1545,10 @@
       "description": "Defines the SKU of an Azure Cognitive Search Service, which determines price tier and capacity limits.",
       "externalDocs": {
         "url": "https://azure.microsoft.com/documentation/articles/search-sku-tier/"
-      }
+      },
+      "required": [
+        "name"
+      ]
     },
     "DataPlaneAuthOptions": {
       "type": "object",
@@ -2049,6 +2064,9 @@
         {
           "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/TrackedResource"
         }
+      ],
+      "required": [
+        "sku"
       ],
       "description": "Describes an Azure Cognitive Search service and its current state."
     },
