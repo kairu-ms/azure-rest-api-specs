@@ -2,15 +2,11 @@
   {
     "id": "/subscriptions/{}/resourcegroups/{}/providers/microsoft.azuresphere/catalogs/{}/products/{}/devicegroups/{}/devices",
     "version": "2024-04-01",
+    "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/devices",
     "pathItem": {
       "get": {
-        "operationId": "Devices_ListByDeviceGroup",
-        "pageable": {
-          "nextLinkName": "nextLink"
-        },
         "read": {
           "operationId": "Devices_ListByDeviceGroup",
-          "description": "List Device resources by DeviceGroup. '.default' and '.unassigned' are system defined values and cannot be used for product or device group name.",
           "http": {
             "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/devices",
             "request": {
@@ -20,27 +16,43 @@
                   {
                     "type": "string",
                     "name": "catalogName",
-                    "description": "Name of catalog"
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9_-]{1,50}$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "deviceGroupName",
-                    "description": "Name of device group."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9]{1,2}$|^[A-Za-z0-9][A-Za-z0-9\\s]{1,48}[A-Za-z0-9]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "productName",
-                    "description": "Name of product."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[\\w][\\w\\s]{1,48}[\\w]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "resourceGroupName",
-                    "description": "The name of the resource group. The name is case insensitive."
+                    "required": true,
+                    "format": {
+                      "maxLength": 90,
+                      "minLength": 1
+                    }
                   },
                   {
                     "type": "string",
                     "name": "subscriptionId",
-                    "description": "The ID of the target subscription. The value must be an UUID."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               },
@@ -49,7 +61,10 @@
                   {
                     "type": "string",
                     "name": "api-version",
-                    "description": "The API version to use for this operation."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               }
@@ -59,25 +74,171 @@
                 "statusCode": [
                   200
                 ],
-                "isError": false,
-                "description": "Azure operation completed successfully.",
                 "body": {
                   "json": {
                     "schema": {
                       "type": "object",
                       "props": [
                         {
-                          "type": "array",
-                          "identifiers": [
-                            "id"
-                          ],
+                          "type": "array<object>",
                           "name": "value",
-                          "description": "The Device items on this page"
+                          "required": true,
+                          "item": {
+                            "type": "object",
+                            "props": [
+                              {
+                                "readOnly": true,
+                                "type": "ResourceId",
+                                "name": "id",
+                                "format": {
+                                  "template": "/subscriptions/{}/resourceGroups/{}/providers/Microsoft.AzureSphere/catalogs/{}/products/{}/deviceGroups/{}/devices/{}"
+                                }
+                              },
+                              {
+                                "readOnly": true,
+                                "type": "string",
+                                "name": "name"
+                              },
+                              {
+                                "readOnly": true,
+                                "type": "string",
+                                "name": "type"
+                              },
+                              {
+                                "readOnly": true,
+                                "type": "object",
+                                "name": "systemData",
+                                "props": [
+                                  {
+                                    "type": "string",
+                                    "name": "createdBy"
+                                  },
+                                  {
+                                    "type": "string",
+                                    "name": "createdByType",
+                                    "enum": {
+                                      "items": [
+                                        {
+                                          "value": "User"
+                                        },
+                                        {
+                                          "value": "Application"
+                                        },
+                                        {
+                                          "value": "ManagedIdentity"
+                                        },
+                                        {
+                                          "value": "Key"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "dateTime",
+                                    "name": "createdAt"
+                                  },
+                                  {
+                                    "type": "string",
+                                    "name": "lastModifiedBy"
+                                  },
+                                  {
+                                    "type": "string",
+                                    "name": "lastModifiedByType",
+                                    "enum": {
+                                      "items": [
+                                        {
+                                          "value": "User"
+                                        },
+                                        {
+                                          "value": "Application"
+                                        },
+                                        {
+                                          "value": "ManagedIdentity"
+                                        },
+                                        {
+                                          "value": "Key"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "dateTime",
+                                    "name": "lastModifiedAt"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "object",
+                                "name": "properties",
+                                "props": [
+                                  {
+                                    "type": "string",
+                                    "name": "deviceId"
+                                  },
+                                  {
+                                    "readOnly": true,
+                                    "type": "string",
+                                    "name": "chipSku"
+                                  },
+                                  {
+                                    "readOnly": true,
+                                    "type": "string",
+                                    "name": "lastAvailableOsVersion"
+                                  },
+                                  {
+                                    "readOnly": true,
+                                    "type": "string",
+                                    "name": "lastInstalledOsVersion"
+                                  },
+                                  {
+                                    "readOnly": true,
+                                    "type": "dateTime",
+                                    "name": "lastOsUpdateUtc"
+                                  },
+                                  {
+                                    "readOnly": true,
+                                    "type": "dateTime",
+                                    "name": "lastUpdateRequestUtc"
+                                  },
+                                  {
+                                    "readOnly": true,
+                                    "type": "string",
+                                    "name": "provisioningState",
+                                    "enum": {
+                                      "items": [
+                                        {
+                                          "value": "Succeeded"
+                                        },
+                                        {
+                                          "value": "Failed"
+                                        },
+                                        {
+                                          "value": "Canceled"
+                                        },
+                                        {
+                                          "value": "Provisioning"
+                                        },
+                                        {
+                                          "value": "Updating"
+                                        },
+                                        {
+                                          "value": "Deleting"
+                                        },
+                                        {
+                                          "value": "Accepted"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "clientFlatten": true
+                              }
+                            ]
+                          }
                         },
                         {
                           "type": "string",
-                          "name": "nextLink",
-                          "description": "The link to the next page of items"
+                          "name": "nextLink"
                         }
                       ]
                     }
@@ -103,12 +264,11 @@
   {
     "id": "/subscriptions/{}/resourcegroups/{}/providers/microsoft.azuresphere/catalogs/{}/products/{}/devicegroups/{}/devices/{}",
     "version": "2024-04-01",
+    "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/devices/{deviceName}",
     "pathItem": {
       "get": {
-        "operationId": "Devices_Get",
         "read": {
           "operationId": "Devices_Get",
-          "description": "Get a Device. Use '.unassigned' or '.default' for the device group and product names when a device does not belong to a device group and product.",
           "http": {
             "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/devices/{deviceName}",
             "request": {
@@ -118,32 +278,51 @@
                   {
                     "type": "string",
                     "name": "catalogName",
-                    "description": "Name of catalog"
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9_-]{1,50}$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "deviceGroupName",
-                    "description": "Name of device group."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9]{1,2}$|^[A-Za-z0-9][A-Za-z0-9\\s]{1,48}[A-Za-z0-9]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "deviceName",
-                    "description": "Device name"
+                    "required": true,
+                    "format": {
+                      "pattern": "^[a-zA-Z0-9-]{128}$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "productName",
-                    "description": "Name of product."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[\\w][\\w\\s]{1,48}[\\w]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "resourceGroupName",
-                    "description": "The name of the resource group. The name is case insensitive."
+                    "required": true,
+                    "format": {
+                      "maxLength": 90,
+                      "minLength": 1
+                    }
                   },
                   {
                     "type": "string",
                     "name": "subscriptionId",
-                    "description": "The ID of the target subscription. The value must be an UUID."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               },
@@ -152,7 +331,10 @@
                   {
                     "type": "string",
                     "name": "api-version",
-                    "description": "The API version to use for this operation."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               }
@@ -162,54 +344,129 @@
                 "statusCode": [
                   200
                 ],
-                "isError": false,
-                "description": "Azure operation completed successfully.",
                 "body": {
                   "json": {
                     "schema": {
                       "type": "object",
                       "props": [
                         {
+                          "readOnly": true,
+                          "type": "ResourceId",
+                          "name": "id",
+                          "format": {
+                            "template": "/subscriptions/{}/resourceGroups/{}/providers/Microsoft.AzureSphere/catalogs/{}/products/{}/deviceGroups/{}/devices/{}"
+                          }
+                        },
+                        {
+                          "readOnly": true,
+                          "type": "string",
+                          "name": "name"
+                        },
+                        {
+                          "readOnly": true,
+                          "type": "string",
+                          "name": "type"
+                        },
+                        {
+                          "readOnly": true,
                           "type": "object",
+                          "name": "systemData",
                           "props": [
                             {
                               "type": "string",
-                              "name": "deviceId",
-                              "description": "Device ID"
+                              "name": "createdBy"
                             },
                             {
                               "type": "string",
-                              "name": "chipSku",
-                              "description": "SKU of the chip",
-                              "readOnly": true
-                            },
-                            {
-                              "type": "string",
-                              "name": "lastAvailableOsVersion",
-                              "description": "OS version available for installation when update requested",
-                              "readOnly": true
-                            },
-                            {
-                              "type": "string",
-                              "name": "lastInstalledOsVersion",
-                              "description": "OS version running on device when update requested",
-                              "readOnly": true
+                              "name": "createdByType",
+                              "enum": {
+                                "items": [
+                                  {
+                                    "value": "User"
+                                  },
+                                  {
+                                    "value": "Application"
+                                  },
+                                  {
+                                    "value": "ManagedIdentity"
+                                  },
+                                  {
+                                    "value": "Key"
+                                  }
+                                ]
+                              }
                             },
                             {
                               "type": "dateTime",
-                              "name": "lastOsUpdateUtc",
-                              "description": "Time when update requested and new OS version available",
-                              "readOnly": true
-                            },
-                            {
-                              "type": "dateTime",
-                              "name": "lastUpdateRequestUtc",
-                              "description": "Time when update was last requested",
-                              "readOnly": true
+                              "name": "createdAt"
                             },
                             {
                               "type": "string",
-                              "nullable": false,
+                              "name": "lastModifiedBy"
+                            },
+                            {
+                              "type": "string",
+                              "name": "lastModifiedByType",
+                              "enum": {
+                                "items": [
+                                  {
+                                    "value": "User"
+                                  },
+                                  {
+                                    "value": "Application"
+                                  },
+                                  {
+                                    "value": "ManagedIdentity"
+                                  },
+                                  {
+                                    "value": "Key"
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "dateTime",
+                              "name": "lastModifiedAt"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "name": "properties",
+                          "props": [
+                            {
+                              "type": "string",
+                              "name": "deviceId"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "chipSku"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "lastAvailableOsVersion"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "lastInstalledOsVersion"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "dateTime",
+                              "name": "lastOsUpdateUtc"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "dateTime",
+                              "name": "lastUpdateRequestUtc"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "provisioningState",
                               "enum": {
                                 "items": [
                                   {
@@ -234,25 +491,131 @@
                                     "value": "Accepted"
                                   }
                                 ]
-                              },
-                              "name": "provisioningState",
-                              "description": "The status of the last operation.",
-                              "readOnly": true
+                              }
                             }
                           ],
-                          "name": "properties",
-                          "description": "The resource-specific properties for this resource."
-                        },
-                        {
-                          "type": "string",
-                          "name": "name",
-                          "description": "Device name",
-                          "readOnly": true
+                          "clientFlatten": true
                         }
                       ]
                     }
                   }
                 }
+              },
+              {
+                "isError": true,
+                "body": {
+                  "json": {
+                    "schema": {
+                      "type": "@MgmtErrorFormat"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "delete": {
+        "create": {
+          "longRunning": {
+            "finalStateVia": "location"
+          },
+          "operationId": "Devices_Delete",
+          "http": {
+            "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/devices/{deviceName}",
+            "request": {
+              "method": "delete",
+              "path": {
+                "params": [
+                  {
+                    "type": "string",
+                    "name": "catalogName",
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9_-]{1,50}$"
+                    }
+                  },
+                  {
+                    "type": "string",
+                    "name": "deviceGroupName",
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9]{1,2}$|^[A-Za-z0-9][A-Za-z0-9\\s]{1,48}[A-Za-z0-9]$|^\\.default$|^\\.unassigned$"
+                    }
+                  },
+                  {
+                    "type": "string",
+                    "name": "deviceName",
+                    "required": true,
+                    "format": {
+                      "pattern": "^[a-zA-Z0-9-]{128}$"
+                    }
+                  },
+                  {
+                    "type": "string",
+                    "name": "productName",
+                    "required": true,
+                    "format": {
+                      "pattern": "^[\\w][\\w\\s]{1,48}[\\w]$|^\\.default$|^\\.unassigned$"
+                    }
+                  },
+                  {
+                    "type": "string",
+                    "name": "resourceGroupName",
+                    "required": true,
+                    "format": {
+                      "maxLength": 90,
+                      "minLength": 1
+                    }
+                  },
+                  {
+                    "type": "string",
+                    "name": "subscriptionId",
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
+                  }
+                ]
+              },
+              "query": {
+                "params": [
+                  {
+                    "type": "string",
+                    "name": "api-version",
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
+                  }
+                ]
+              }
+            },
+            "responses": [
+              {
+                "statusCode": [
+                  200
+                ]
+              },
+              {
+                "statusCode": [
+                  202
+                ],
+                "header": {
+                  "items": [
+                    {
+                      "name": "Location"
+                    },
+                    {
+                      "name": "Retry-After"
+                    }
+                  ]
+                }
+              },
+              {
+                "statusCode": [
+                  204
+                ]
               },
               {
                 "isError": true,
@@ -269,10 +632,11 @@
         }
       },
       "put": {
-        "operationId": "Devices_CreateOrUpdate",
         "create": {
+          "longRunning": {
+            "finalStateVia": "azure-async-operation"
+          },
           "operationId": "Devices_CreateOrUpdate",
-          "description": "Create a Device. Use '.unassigned' or '.default' for the device group and product names to claim a device to the catalog only.",
           "http": {
             "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/devices/{deviceName}",
             "request": {
@@ -282,32 +646,51 @@
                   {
                     "type": "string",
                     "name": "catalogName",
-                    "description": "Name of catalog"
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9_-]{1,50}$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "deviceGroupName",
-                    "description": "Name of device group."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9]{1,2}$|^[A-Za-z0-9][A-Za-z0-9\\s]{1,48}[A-Za-z0-9]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "deviceName",
-                    "description": "Device name"
+                    "required": true,
+                    "format": {
+                      "pattern": "^[a-zA-Z0-9-]{128}$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "productName",
-                    "description": "Name of product."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[\\w][\\w\\s]{1,48}[\\w]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "resourceGroupName",
-                    "description": "The name of the resource group. The name is case insensitive."
+                    "required": true,
+                    "format": {
+                      "maxLength": 90,
+                      "minLength": 1
+                    }
                   },
                   {
                     "type": "string",
                     "name": "subscriptionId",
-                    "description": "The ID of the target subscription. The value must be an UUID."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               },
@@ -316,7 +699,10 @@
                   {
                     "type": "string",
                     "name": "api-version",
-                    "description": "The API version to use for this operation."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               },
@@ -324,90 +710,21 @@
                 "json": {
                   "schema": {
                     "type": "object",
+                    "name": "resource",
+                    "required": true,
                     "props": [
                       {
                         "type": "object",
+                        "name": "properties",
                         "props": [
                           {
                             "type": "string",
-                            "name": "deviceId",
-                            "description": "Device ID"
-                          },
-                          {
-                            "type": "string",
-                            "name": "chipSku",
-                            "description": "SKU of the chip",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "string",
-                            "name": "lastAvailableOsVersion",
-                            "description": "OS version available for installation when update requested",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "string",
-                            "name": "lastInstalledOsVersion",
-                            "description": "OS version running on device when update requested",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "dateTime",
-                            "name": "lastOsUpdateUtc",
-                            "description": "Time when update requested and new OS version available",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "dateTime",
-                            "name": "lastUpdateRequestUtc",
-                            "description": "Time when update was last requested",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "string",
-                            "nullable": false,
-                            "enum": {
-                              "items": [
-                                {
-                                  "value": "Succeeded"
-                                },
-                                {
-                                  "value": "Failed"
-                                },
-                                {
-                                  "value": "Canceled"
-                                },
-                                {
-                                  "value": "Provisioning"
-                                },
-                                {
-                                  "value": "Updating"
-                                },
-                                {
-                                  "value": "Deleting"
-                                },
-                                {
-                                  "value": "Accepted"
-                                }
-                              ]
-                            },
-                            "name": "provisioningState",
-                            "description": "The status of the last operation.",
-                            "readOnly": true
+                            "name": "deviceId"
                           }
                         ],
-                        "name": "properties",
-                        "description": "The resource-specific properties for this resource."
-                      },
-                      {
-                        "type": "string",
-                        "name": "name",
-                        "description": "Device name",
-                        "readOnly": true
+                        "clientFlatten": true
                       }
                     ],
-                    "name": "resource",
-                    "description": "Resource create parameters.",
                     "clientFlatten": true
                   }
                 }
@@ -416,63 +733,132 @@
             "responses": [
               {
                 "statusCode": [
+                  200,
                   201
                 ],
-                "isError": false,
-                "description": "Resource 'Device' create operation succeeded",
-                "header": {
-                  "items": [
-                    {
-                      "name": "Retry-After"
-                    }
-                  ]
-                },
                 "body": {
                   "json": {
                     "schema": {
                       "type": "object",
                       "props": [
                         {
+                          "readOnly": true,
+                          "type": "ResourceId",
+                          "name": "id",
+                          "format": {
+                            "template": "/subscriptions/{}/resourceGroups/{}/providers/Microsoft.AzureSphere/catalogs/{}/products/{}/deviceGroups/{}/devices/{}"
+                          }
+                        },
+                        {
+                          "readOnly": true,
+                          "type": "string",
+                          "name": "name"
+                        },
+                        {
+                          "readOnly": true,
+                          "type": "string",
+                          "name": "type"
+                        },
+                        {
+                          "readOnly": true,
                           "type": "object",
+                          "name": "systemData",
                           "props": [
                             {
                               "type": "string",
-                              "name": "deviceId",
-                              "description": "Device ID"
+                              "name": "createdBy"
                             },
                             {
                               "type": "string",
-                              "name": "chipSku",
-                              "description": "SKU of the chip",
-                              "readOnly": true
-                            },
-                            {
-                              "type": "string",
-                              "name": "lastAvailableOsVersion",
-                              "description": "OS version available for installation when update requested",
-                              "readOnly": true
-                            },
-                            {
-                              "type": "string",
-                              "name": "lastInstalledOsVersion",
-                              "description": "OS version running on device when update requested",
-                              "readOnly": true
+                              "name": "createdByType",
+                              "enum": {
+                                "items": [
+                                  {
+                                    "value": "User"
+                                  },
+                                  {
+                                    "value": "Application"
+                                  },
+                                  {
+                                    "value": "ManagedIdentity"
+                                  },
+                                  {
+                                    "value": "Key"
+                                  }
+                                ]
+                              }
                             },
                             {
                               "type": "dateTime",
-                              "name": "lastOsUpdateUtc",
-                              "description": "Time when update requested and new OS version available",
-                              "readOnly": true
-                            },
-                            {
-                              "type": "dateTime",
-                              "name": "lastUpdateRequestUtc",
-                              "description": "Time when update was last requested",
-                              "readOnly": true
+                              "name": "createdAt"
                             },
                             {
                               "type": "string",
-                              "nullable": false,
+                              "name": "lastModifiedBy"
+                            },
+                            {
+                              "type": "string",
+                              "name": "lastModifiedByType",
+                              "enum": {
+                                "items": [
+                                  {
+                                    "value": "User"
+                                  },
+                                  {
+                                    "value": "Application"
+                                  },
+                                  {
+                                    "value": "ManagedIdentity"
+                                  },
+                                  {
+                                    "value": "Key"
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "dateTime",
+                              "name": "lastModifiedAt"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "name": "properties",
+                          "props": [
+                            {
+                              "type": "string",
+                              "name": "deviceId"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "chipSku"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "lastAvailableOsVersion"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "lastInstalledOsVersion"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "dateTime",
+                              "name": "lastOsUpdateUtc"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "dateTime",
+                              "name": "lastUpdateRequestUtc"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "provisioningState",
                               "enum": {
                                 "items": [
                                   {
@@ -497,20 +883,10 @@
                                     "value": "Accepted"
                                   }
                                 ]
-                              },
-                              "name": "provisioningState",
-                              "description": "The status of the last operation.",
-                              "readOnly": true
+                              }
                             }
                           ],
-                          "name": "properties",
-                          "description": "The resource-specific properties for this resource."
-                        },
-                        {
-                          "type": "string",
-                          "name": "name",
-                          "description": "Device name",
-                          "readOnly": true
+                          "clientFlatten": true
                         }
                       ]
                     }
@@ -528,14 +904,13 @@
                 }
               }
             ]
-          },
-          "longRunning": {
-            "finalStateVia": "azure-async-operation"
           }
         },
         "update": {
+          "longRunning": {
+            "finalStateVia": "azure-async-operation"
+          },
           "operationId": "Devices_CreateOrUpdate",
-          "description": "Create a Device. Use '.unassigned' or '.default' for the device group and product names to claim a device to the catalog only.",
           "http": {
             "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/devices/{deviceName}",
             "request": {
@@ -545,32 +920,51 @@
                   {
                     "type": "string",
                     "name": "catalogName",
-                    "description": "Name of catalog"
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9_-]{1,50}$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "deviceGroupName",
-                    "description": "Name of device group."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9]{1,2}$|^[A-Za-z0-9][A-Za-z0-9\\s]{1,48}[A-Za-z0-9]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "deviceName",
-                    "description": "Device name"
+                    "required": true,
+                    "format": {
+                      "pattern": "^[a-zA-Z0-9-]{128}$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "productName",
-                    "description": "Name of product."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[\\w][\\w\\s]{1,48}[\\w]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "resourceGroupName",
-                    "description": "The name of the resource group. The name is case insensitive."
+                    "required": true,
+                    "format": {
+                      "maxLength": 90,
+                      "minLength": 1
+                    }
                   },
                   {
                     "type": "string",
                     "name": "subscriptionId",
-                    "description": "The ID of the target subscription. The value must be an UUID."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               },
@@ -579,7 +973,10 @@
                   {
                     "type": "string",
                     "name": "api-version",
-                    "description": "The API version to use for this operation."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               },
@@ -587,90 +984,8 @@
                 "json": {
                   "schema": {
                     "type": "object",
-                    "props": [
-                      {
-                        "type": "object",
-                        "props": [
-                          {
-                            "type": "string",
-                            "name": "deviceId",
-                            "description": "Device ID"
-                          },
-                          {
-                            "type": "string",
-                            "name": "chipSku",
-                            "description": "SKU of the chip",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "string",
-                            "name": "lastAvailableOsVersion",
-                            "description": "OS version available for installation when update requested",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "string",
-                            "name": "lastInstalledOsVersion",
-                            "description": "OS version running on device when update requested",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "dateTime",
-                            "name": "lastOsUpdateUtc",
-                            "description": "Time when update requested and new OS version available",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "dateTime",
-                            "name": "lastUpdateRequestUtc",
-                            "description": "Time when update was last requested",
-                            "readOnly": true
-                          },
-                          {
-                            "type": "string",
-                            "nullable": false,
-                            "enum": {
-                              "items": [
-                                {
-                                  "value": "Succeeded"
-                                },
-                                {
-                                  "value": "Failed"
-                                },
-                                {
-                                  "value": "Canceled"
-                                },
-                                {
-                                  "value": "Provisioning"
-                                },
-                                {
-                                  "value": "Updating"
-                                },
-                                {
-                                  "value": "Deleting"
-                                },
-                                {
-                                  "value": "Accepted"
-                                }
-                              ]
-                            },
-                            "name": "provisioningState",
-                            "description": "The status of the last operation.",
-                            "readOnly": true
-                          }
-                        ],
-                        "name": "properties",
-                        "description": "The resource-specific properties for this resource."
-                      },
-                      {
-                        "type": "string",
-                        "name": "name",
-                        "description": "Device name",
-                        "readOnly": true
-                      }
-                    ],
                     "name": "resource",
-                    "description": "Resource create parameters.",
+                    "required": true,
                     "clientFlatten": true
                   }
                 }
@@ -679,63 +994,132 @@
             "responses": [
               {
                 "statusCode": [
+                  200,
                   201
                 ],
-                "isError": false,
-                "description": "Resource 'Device' create operation succeeded",
-                "header": {
-                  "items": [
-                    {
-                      "name": "Retry-After"
-                    }
-                  ]
-                },
                 "body": {
                   "json": {
                     "schema": {
                       "type": "object",
                       "props": [
                         {
+                          "readOnly": true,
+                          "type": "ResourceId",
+                          "name": "id",
+                          "format": {
+                            "template": "/subscriptions/{}/resourceGroups/{}/providers/Microsoft.AzureSphere/catalogs/{}/products/{}/deviceGroups/{}/devices/{}"
+                          }
+                        },
+                        {
+                          "readOnly": true,
+                          "type": "string",
+                          "name": "name"
+                        },
+                        {
+                          "readOnly": true,
+                          "type": "string",
+                          "name": "type"
+                        },
+                        {
+                          "readOnly": true,
                           "type": "object",
+                          "name": "systemData",
                           "props": [
                             {
                               "type": "string",
-                              "name": "deviceId",
-                              "description": "Device ID"
+                              "name": "createdBy"
                             },
                             {
                               "type": "string",
-                              "name": "chipSku",
-                              "description": "SKU of the chip",
-                              "readOnly": true
-                            },
-                            {
-                              "type": "string",
-                              "name": "lastAvailableOsVersion",
-                              "description": "OS version available for installation when update requested",
-                              "readOnly": true
-                            },
-                            {
-                              "type": "string",
-                              "name": "lastInstalledOsVersion",
-                              "description": "OS version running on device when update requested",
-                              "readOnly": true
+                              "name": "createdByType",
+                              "enum": {
+                                "items": [
+                                  {
+                                    "value": "User"
+                                  },
+                                  {
+                                    "value": "Application"
+                                  },
+                                  {
+                                    "value": "ManagedIdentity"
+                                  },
+                                  {
+                                    "value": "Key"
+                                  }
+                                ]
+                              }
                             },
                             {
                               "type": "dateTime",
-                              "name": "lastOsUpdateUtc",
-                              "description": "Time when update requested and new OS version available",
-                              "readOnly": true
-                            },
-                            {
-                              "type": "dateTime",
-                              "name": "lastUpdateRequestUtc",
-                              "description": "Time when update was last requested",
-                              "readOnly": true
+                              "name": "createdAt"
                             },
                             {
                               "type": "string",
-                              "nullable": false,
+                              "name": "lastModifiedBy"
+                            },
+                            {
+                              "type": "string",
+                              "name": "lastModifiedByType",
+                              "enum": {
+                                "items": [
+                                  {
+                                    "value": "User"
+                                  },
+                                  {
+                                    "value": "Application"
+                                  },
+                                  {
+                                    "value": "ManagedIdentity"
+                                  },
+                                  {
+                                    "value": "Key"
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "dateTime",
+                              "name": "lastModifiedAt"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "name": "properties",
+                          "props": [
+                            {
+                              "type": "string",
+                              "name": "deviceId"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "chipSku"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "lastAvailableOsVersion"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "lastInstalledOsVersion"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "dateTime",
+                              "name": "lastOsUpdateUtc"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "dateTime",
+                              "name": "lastUpdateRequestUtc"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "provisioningState",
                               "enum": {
                                 "items": [
                                   {
@@ -760,20 +1144,10 @@
                                     "value": "Accepted"
                                   }
                                 ]
-                              },
-                              "name": "provisioningState",
-                              "description": "The status of the last operation.",
-                              "readOnly": true
+                              }
                             }
                           ],
-                          "name": "properties",
-                          "description": "The resource-specific properties for this resource."
-                        },
-                        {
-                          "type": "string",
-                          "name": "name",
-                          "description": "Device name",
-                          "readOnly": true
+                          "clientFlatten": true
                         }
                       ]
                     }
@@ -791,17 +1165,15 @@
                 }
               }
             ]
-          },
-          "longRunning": {
-            "finalStateVia": "azure-async-operation"
           }
         }
       },
       "patch": {
-        "operationId": "Devices_Update",
         "update": {
+          "longRunning": {
+            "finalStateVia": "location"
+          },
           "operationId": "Devices_Update",
-          "description": "Update a Device. Use '.unassigned' or '.default' for the device group and product names to move a device to the catalog level.",
           "http": {
             "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/devices/{deviceName}",
             "request": {
@@ -811,32 +1183,51 @@
                   {
                     "type": "string",
                     "name": "catalogName",
-                    "description": "Name of catalog"
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9_-]{1,50}$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "deviceGroupName",
-                    "description": "Name of device group."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[A-Za-z0-9]{1,2}$|^[A-Za-z0-9][A-Za-z0-9\\s]{1,48}[A-Za-z0-9]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "deviceName",
-                    "description": "Device name"
+                    "required": true,
+                    "format": {
+                      "pattern": "^[a-zA-Z0-9-]{128}$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "productName",
-                    "description": "Name of product."
+                    "required": true,
+                    "format": {
+                      "pattern": "^[\\w][\\w\\s]{1,48}[\\w]$|^\\.default$|^\\.unassigned$"
+                    }
                   },
                   {
                     "type": "string",
                     "name": "resourceGroupName",
-                    "description": "The name of the resource group. The name is case insensitive."
+                    "required": true,
+                    "format": {
+                      "maxLength": 90,
+                      "minLength": 1
+                    }
                   },
                   {
                     "type": "string",
                     "name": "subscriptionId",
-                    "description": "The ID of the target subscription. The value must be an UUID."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               },
@@ -845,7 +1236,10 @@
                   {
                     "type": "string",
                     "name": "api-version",
-                    "description": "The API version to use for this operation."
+                    "required": true,
+                    "format": {
+                      "minLength": 1
+                    }
                   }
                 ]
               },
@@ -853,22 +1247,21 @@
                 "json": {
                   "schema": {
                     "type": "object",
+                    "name": "properties",
+                    "required": true,
                     "props": [
                       {
                         "type": "object",
+                        "name": "properties",
                         "props": [
                           {
                             "type": "string",
-                            "name": "deviceGroupId",
-                            "description": "Device group id"
+                            "name": "deviceGroupId"
                           }
                         ],
-                        "name": "properties",
-                        "description": "The updatable properties of the Device."
+                        "clientFlatten": true
                       }
                     ],
-                    "name": "properties",
-                    "description": "The resource properties to be updated.",
                     "clientFlatten": true
                   }
                 }
@@ -877,27 +1270,169 @@
             "responses": [
               {
                 "statusCode": [
-                  202
+                  200
                 ],
-                "isError": false,
-                "description": "Resource update request accepted.",
-                "header": {
-                  "items": [
-                    {
-                      "name": "Location"
-                    },
-                    {
-                      "name": "Retry-After"
+                "body": {
+                  "json": {
+                    "schema": {
+                      "type": "object",
+                      "props": [
+                        {
+                          "readOnly": true,
+                          "type": "ResourceId",
+                          "name": "id",
+                          "format": {
+                            "template": "/subscriptions/{}/resourceGroups/{}/providers/Microsoft.AzureSphere/catalogs/{}/products/{}/deviceGroups/{}/devices/{}"
+                          }
+                        },
+                        {
+                          "readOnly": true,
+                          "type": "string",
+                          "name": "name"
+                        },
+                        {
+                          "readOnly": true,
+                          "type": "string",
+                          "name": "type"
+                        },
+                        {
+                          "readOnly": true,
+                          "type": "object",
+                          "name": "systemData",
+                          "props": [
+                            {
+                              "type": "string",
+                              "name": "createdBy"
+                            },
+                            {
+                              "type": "string",
+                              "name": "createdByType",
+                              "enum": {
+                                "items": [
+                                  {
+                                    "value": "User"
+                                  },
+                                  {
+                                    "value": "Application"
+                                  },
+                                  {
+                                    "value": "ManagedIdentity"
+                                  },
+                                  {
+                                    "value": "Key"
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "dateTime",
+                              "name": "createdAt"
+                            },
+                            {
+                              "type": "string",
+                              "name": "lastModifiedBy"
+                            },
+                            {
+                              "type": "string",
+                              "name": "lastModifiedByType",
+                              "enum": {
+                                "items": [
+                                  {
+                                    "value": "User"
+                                  },
+                                  {
+                                    "value": "Application"
+                                  },
+                                  {
+                                    "value": "ManagedIdentity"
+                                  },
+                                  {
+                                    "value": "Key"
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "dateTime",
+                              "name": "lastModifiedAt"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "name": "properties",
+                          "props": [
+                            {
+                              "type": "string",
+                              "name": "deviceId"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "chipSku"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "lastAvailableOsVersion"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "lastInstalledOsVersion"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "dateTime",
+                              "name": "lastOsUpdateUtc"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "dateTime",
+                              "name": "lastUpdateRequestUtc"
+                            },
+                            {
+                              "readOnly": true,
+                              "type": "string",
+                              "name": "provisioningState",
+                              "enum": {
+                                "items": [
+                                  {
+                                    "value": "Succeeded"
+                                  },
+                                  {
+                                    "value": "Failed"
+                                  },
+                                  {
+                                    "value": "Canceled"
+                                  },
+                                  {
+                                    "value": "Provisioning"
+                                  },
+                                  {
+                                    "value": "Updating"
+                                  },
+                                  {
+                                    "value": "Deleting"
+                                  },
+                                  {
+                                    "value": "Accepted"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "clientFlatten": true
+                        }
+                      ]
                     }
-                  ]
+                  }
                 }
               },
               {
                 "statusCode": [
                   202
                 ],
-                "isError": false,
-                "description": "Resource update request accepted.",
                 "header": {
                   "items": [
                     {
@@ -920,111 +1455,6 @@
                 }
               }
             ]
-          },
-          "longRunning": {
-            "finalStateVia": "location"
-          }
-        }
-      },
-      "delete": {
-        "operationId": "Devices_Delete",
-        "create": {
-          "operationId": "Devices_Delete",
-          "description": "Delete a Device",
-          "http": {
-            "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/devices/{deviceName}",
-            "request": {
-              "method": "delete",
-              "path": {
-                "params": [
-                  {
-                    "type": "string",
-                    "name": "catalogName",
-                    "description": "Name of catalog"
-                  },
-                  {
-                    "type": "string",
-                    "name": "deviceGroupName",
-                    "description": "Name of device group."
-                  },
-                  {
-                    "type": "string",
-                    "name": "deviceName",
-                    "description": "Device name"
-                  },
-                  {
-                    "type": "string",
-                    "name": "productName",
-                    "description": "Name of product."
-                  },
-                  {
-                    "type": "string",
-                    "name": "resourceGroupName",
-                    "description": "The name of the resource group. The name is case insensitive."
-                  },
-                  {
-                    "type": "string",
-                    "name": "subscriptionId",
-                    "description": "The ID of the target subscription. The value must be an UUID."
-                  }
-                ]
-              },
-              "query": {
-                "params": [
-                  {
-                    "type": "string",
-                    "name": "api-version",
-                    "description": "The API version to use for this operation."
-                  }
-                ]
-              }
-            },
-            "responses": [
-              {
-                "statusCode": [
-                  204
-                ],
-                "isError": false,
-                "description": "Resource does not exist."
-              },
-              {
-                "statusCode": [
-                  202
-                ],
-                "isError": false,
-                "description": "Resource deletion accepted.",
-                "header": {
-                  "items": [
-                    {
-                      "name": "Location"
-                    },
-                    {
-                      "name": "Retry-After"
-                    }
-                  ]
-                }
-              },
-              {
-                "statusCode": [
-                  204
-                ],
-                "isError": false,
-                "description": "Resource does not exist."
-              },
-              {
-                "isError": true,
-                "body": {
-                  "json": {
-                    "schema": {
-                      "type": "@MgmtErrorFormat"
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          "longRunning": {
-            "finalStateVia": "location"
           }
         }
       }
