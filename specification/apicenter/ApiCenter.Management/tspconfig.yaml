@@ -1,5 +1,5 @@
 emit:
-  - "@azure-tools/typespec-autorest"
+  - "@azure-tools/typespec-aaz"
 options:
   "@azure-tools/typespec-autorest":
     emitter-output-dir: "{project-root}/.."
@@ -7,6 +7,12 @@ options:
     output-file: "{azure-resource-provider-folder}/{service-name}/{version-status}/{version}/apicenter.json"
     examples-directory: "{project-root}/examples"
     use-read-only-status-schema: true
+  "@azure-tools/typespec-aaz":
+    api-version: "2024-03-15-preview"
+    operation: "get-resources-operations"
+    resources:
+      - "/subscriptions/{}/resourcegroups/{}/providers/microsoft.apicenter/services/{}/workspaces/{}/apis/{}/versions/{}/definitions/{}"
+      - "/subscriptions/{}/resourcegroups/{}/providers/microsoft.apicenter/services/{}/workspaces/{}/apis/{}/versions/{}/definitions"
 linter:
   extends:
     - "@azure-tools/typespec-azure-rulesets/resource-manager"

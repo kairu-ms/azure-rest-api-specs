@@ -1,6 +1,12 @@
 emit:
-  - "@azure-tools/typespec-autorest"
+  - "@azure-tools/typespec-aaz"
 options:
+  "@azure-tools/typespec-aaz":
+    api-version: "2024-04-01"
+    operation: "get-resources-operations"
+    resources:
+      - "/subscriptions/{}/resourcegroups/{}/providers/microsoft.azuresphere/catalogs/{}/products/{}/devicegroups/{}/devices"
+      - "/subscriptions/{}/resourcegroups/{}/providers/microsoft.azuresphere/catalogs/{}/products/{}/devicegroups/{}/devices/{}"
   "@azure-tools/typespec-autorest":
     omit-unreachable-types: true
     emitter-output-dir: "{project-root}/.."
