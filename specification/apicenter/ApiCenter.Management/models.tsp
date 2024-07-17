@@ -238,6 +238,10 @@ model ServiceProperties {
   @added(Versions.v2024_03_15_preview)
   @doc("Flag used to restore soft-deleted API Center service. If specified and set to 'true' all other properties will be ignored.")
   restore?: boolean = false;
+
+  // @added(Versions.v2024_03_15_preview)
+  // @doc("The new property of the service.")
+  // newProperty?: string;
 }
 
 @doc("The metadata schema export request.")
