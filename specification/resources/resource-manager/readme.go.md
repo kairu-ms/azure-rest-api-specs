@@ -108,6 +108,14 @@ output-folder: $(go-sdk-folder)/$(module-name)
 azure-arm: true
 ```
 
+``` yaml $(go) && $(track2) && $(package-databoundaries)
+license-header: MICROSOFT_MIT_NO_VERSION
+module-name: sdk/resourcemanager/databoundaries/armdataboundaries
+module: github.com/Azure/azure-sdk-for-go/$(module-name)
+output-folder: $(go-sdk-folder)/$(module-name)
+azure-arm: true
+```
+
 ### Go multi-api
 
 ``` yaml $(go) && $(multiapi)
@@ -118,6 +126,7 @@ batch:
   - tag: package-locks-2016-09
   - tag: package-locks-2015-01
   - tag: package-policy-2023-04
+  - tag: package-policy-2022-06
   - tag: package-policy-2021-06
   - tag: package-policy-2020-09
   - tag: package-policy-2020-03

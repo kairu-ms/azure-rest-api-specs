@@ -10,6 +10,7 @@ function Get-ChangedFiles($baseCommitish = "HEAD^", $targetCommitish = "HEAD", $
   # For PR's that last commit is always a merge commit so HEAD^ will get the parent
   # commit of the base branch and as such will diff HEAD against HEAD^
   $changedFiles = git -c core.quotepath=off diff --name-only --diff-filter=$diffFilter $baseCommitish $targetCommitish
+  $changedFiles = $changedFiles | Where-Object { !$_.Contains("ChangedFiles-Functions") }
 
   Write-Verbose "Changed files:"
   $changedFiles | ForEach-Object { Write-Verbose "$_" }
@@ -17,20 +18,20 @@ function Get-ChangedFiles($baseCommitish = "HEAD^", $targetCommitish = "HEAD", $
   return $changedFiles
 }
 
-function Get-ChangedSwaggerFiles() {
-  $changedFiles = Get-ChangedFilesUnderSpecification
+function Get-ChangedSwaggerFiles($changedFiles = (Get-ChangedFiles)) {
+  $changedFiles = Get-ChangedFilesUnderSpecification $changedFiles
 
-  $changedSwaggerFiles = $changedFiles | Where-Object { 
+  $changedSwaggerFiles = $changedFiles.Where({ 
     $_.EndsWith(".json")
-  }
+  })
     
   return $changedSwaggerFiles
 }
 
 function Get-ChangedFilesUnderSpecification($changedFiles = (Get-ChangedFiles)) {
-  $changedFilesUnderSpecification = $changedFiles | Where-Object { 
+  $changedFilesUnderSpecification = $changedFiles.Where({ 
     $_.StartsWith("specification")
-  }
+  })
     
   return $changedFilesUnderSpecification
 }
@@ -41,14 +42,16 @@ function Get-ChangedCoreFiles($changedFiles = (Get-ChangedFiles)) {
     ".prettierrc.json",
     "package-lock.json",
     "package.json",
-    "tsconfig.json"
+    "tsconfig.json",
+    "specification/suppressions.yaml"
   )
 
-  $coreFiles = $changedFiles | Where-Object { 
+  $coreFiles = $changedFiles.Where({ 
+    $_.StartsWith(".github/") -or
     $_.StartsWith("eng/") -or
     $_.StartsWith("specification/common-types/") -or
     $_ -in $rootFiles
-  }
+  })
 
   return $coreFiles
 }
